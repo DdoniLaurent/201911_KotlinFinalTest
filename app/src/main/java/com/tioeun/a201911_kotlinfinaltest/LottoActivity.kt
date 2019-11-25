@@ -1,12 +1,16 @@
 package com.tioeun.a201911_kotlinfinaltest
 
 import android.os.Bundle
+import android.os.Handler
 import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_lotto.*
 import java.util.*
 
 class LottoActivity : BaseActivity() {
+
+    var mHandller = Handler()
+
 
 //    누적 사용금액
     var usedMoney = 0L
@@ -37,6 +41,28 @@ class LottoActivity : BaseActivity() {
 
             usedMoney += 1000
             usedMoneyTxt.text = String.format("사용금액 : %,d원", usedMoney)
+        }
+
+        autoLottoBtn.setOnClickListener {
+            doLottoLoop()
+        }
+
+    }
+
+    fun doLottoLoop() {
+        mHandller.post {
+            if(usedMoney < 1000000000){
+                setThisWeekLottoNum()
+                checkLottoRank()
+                usedMoney += 1000
+                usedMoneyTxt.text = String.format("사용금액 : %,d원", usedMoney)
+
+                doLottoLoop()
+            } else {
+                runOnUiThread {
+                    Toast.makeText(mContext, "로또구매를 종료합니다.", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
