@@ -16,6 +16,19 @@ class LottoActivity : BaseActivity() {
     var usedMoney = 0L
 //    누적 당첨금액
     var luckyMoney = 0L
+//    1등 당첨횟수
+    var firstRankCount = 0
+    //    2등 당첨횟수
+    var secondRankCount = 0
+    //    3등 당첨횟수
+    var thirdRankCount = 0
+    //    4등 당첨횟수
+    var fourthRankCount = 0
+    //    5등 당첨횟수
+    var fifthRankCount = 0
+    //    낙점 횟수
+    var wrongRankCount = 0
+
 
     var lottoNumArrayList = ArrayList<Int>()
     var thisWeekLottoNumTextViewArrayList = ArrayList<TextView>()
@@ -85,20 +98,32 @@ class LottoActivity : BaseActivity() {
         if(correctCount == 6) {
             Toast.makeText(mContext, "1등 당첨!", Toast.LENGTH_SHORT).show()
             luckyMoney += 2000000000
+            firstRankCount ++
         } else if(correctCount == 5) {
             Toast.makeText(mContext, "3등 당첨!", Toast.LENGTH_SHORT).show()
             luckyMoney += 1500000
+            thirdRankCount ++
         } else if(correctCount == 4) {
             Toast.makeText(mContext, "4등 당첨!", Toast.LENGTH_SHORT).show()
             luckyMoney += 50000
+            fourthRankCount ++
         } else if(correctCount == 3) {
             Toast.makeText(mContext, "5등 당첨!", Toast.LENGTH_SHORT).show()
-            luckyMoney += 5000
+//            luckyMoney += 5000
+            usedMoney -= 5000
+            fifthRankCount ++
         } else  {
             Toast.makeText(mContext, "꽝입니다.", Toast.LENGTH_SHORT).show()
             luckyMoney += 0
+            wrongRankCount ++
         }
         luckyMoneyTxt.text = String.format("누적 당첨 금액 : %,d원", luckyMoney)
+        firstRankCountTxt.text = String.format("1등 당첨 : %,d원", firstRankCount)
+        secondRankCountTxt.text = String.format("2등 당첨 : %,d원", secondRankCount)
+        thirdRankCountTxt.text = String.format("3등 당첨 : %,d원", thirdRankCount)
+        fourthRankCountTxt.text = String.format("4등 당첨 : %,d원", fourthRankCount)
+        fifthRankCountTxt.text = String.format("5등 당첨 : %,d원", fifthRankCount)
+        wrongRankCountTxt.text = String.format("낙점 횟수 : %,d원", wrongRankCount)
     }
 
     fun setThisWeekLottoNum() {

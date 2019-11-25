@@ -150,5 +150,40 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="누적 당첨 금액 : ???"/>
-
-    </LinearLayout>
+    <TextView
+        android:id="@+id/firstRankCountTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="1등 횟수 : 0"/>
+    <TextView
+        android:id="@+id/secondRankCountTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="1등 횟수 : 0"/>
+    <TextView
+        android:id="@+id/thirdRankCountTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="1등 횟수 : 0"/>
+    <TextView
+        android:id="@+id/fourthRankCountTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="1등 횟수 : 0"/>
+    <TextView
+        android:id="@+id/fifthRankCountTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="1등 횟수 : 0"/>
+    <TextView
+        android:id="@+id/wrongRankCountTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="낙점 횟수 : 0"/>
+</LinearLayout>
