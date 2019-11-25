@@ -11,6 +11,7 @@ class LottoActivity : BaseActivity() {
 
     var mHandller = Handler()
 
+    var isNowBuying = false
 
 //    누적 사용금액
     var usedMoney = 0L
@@ -61,13 +62,25 @@ class LottoActivity : BaseActivity() {
         }
 
         autoLottoBtn.setOnClickListener {
-            doLottoLoop()
+            if(!isNowBuying) {
+                doLottoLoop()
+                isNowBuying = true
+                autoLottoBtn.text = "구매 중단"
+            } else {
+//                반복을 중단시키기.....
+                stopLottoLoop()
+
+                isNowBuying = false
+                autoLottoBtn.text = "자동 구매 재개"
+            }
+
         }
 
     }
 
-    fun doLottoLoop() {
-        mHandller.post {
+
+    var lottoRunnable = object : Runnable {
+        override fun run() {
             if(usedMoney < 1000000000){
                 setThisWeekLottoNum()
                 checkLottoRank()
@@ -81,6 +94,14 @@ class LottoActivity : BaseActivity() {
                 }
             }
         }
+    }
+
+    fun doLottoLoop() {
+        mHandller.post(lottoRunnable)
+    }
+
+    fun stopLottoLoop(){
+        mHandller.removeCallbacks(lottoRunnable)
     }
 
 //    당첨 결과를 체크. 몇등인지 확인
