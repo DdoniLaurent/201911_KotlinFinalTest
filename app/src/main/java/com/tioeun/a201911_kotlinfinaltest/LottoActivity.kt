@@ -30,7 +30,11 @@ class LottoActivity : BaseActivity() {
     var wrongRankCount = 0
 
 
+//    정석 당첨번호 6개 저장 배역
     var lottoNumArrayList = ArrayList<Int>()
+//    보너스 번호
+    var bonusNum = 0
+
     var thisWeekLottoNumTextViewArrayList = ArrayList<TextView>()
 
     var myNumArrayList = ArrayList<Int>()
@@ -172,6 +176,24 @@ class LottoActivity : BaseActivity() {
 //      당첨번호 6개를 작은 숫자부터 큰 숫자 순서대로(정렬)!
         Collections.sort(lottoNumArrayList)
 
+//        보너스번호를 추가로 뽑자. 중복을 피해야함. -> 몇번이나 뽑아야 중복이 아닐지 알 수 없다.
+        while(true) {
+            var isDulpOk = true
+            var tempRandomNum = (Math.random() * 45 +1).toInt()
+            for(num in lottoNumArrayList){
+                if(tempRandomNum == num) {
+//                    중복 발견! 다시 뽑아야함.
+                    isDulpOk = false
+                    break
+                }
+            }
+
+            if(isDulpOk) {
+                bonusNum = tempRandomNum
+                break
+            }
+        }
+
 //        6개의 텍스트뷰 / 숫자를 뽑아내서 연결.
         for (i in 0..lottoNumArrayList.size-1) {
             var numTxt = thisWeekLottoNumTextViewArrayList.get(i)
@@ -179,6 +201,7 @@ class LottoActivity : BaseActivity() {
 
             numTxt.text = number.toString()
         }
+        bonusNumTxt.text = bonusNum.toString()
 
     }
 
