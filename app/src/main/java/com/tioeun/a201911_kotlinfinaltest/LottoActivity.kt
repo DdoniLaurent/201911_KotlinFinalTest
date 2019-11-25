@@ -86,7 +86,9 @@ class LottoActivity : BaseActivity() {
 //    당첨 결과를 체크. 몇등인지 확인
     fun checkLottoRank() {
 //      6개 : 1등 => 20억원
-//      5개 : 3등 => 150만원
+//      5개 :
+//          보너스번호가 맞으면 : 2등 => 6500만원
+//          보너스번호가 안맞으면 : 3을 => 150만원
 //      4개 : 4등 => 5만원
 //      3개 : 5등 => 5천원
 //     그 이하는 꽝 => 0원
@@ -104,9 +106,24 @@ class LottoActivity : BaseActivity() {
             luckyMoney += 2000000000
             firstRankCount ++
         } else if(correctCount == 5) {
-            Toast.makeText(mContext, "3등 당첨!", Toast.LENGTH_SHORT).show()
-            luckyMoney += 1500000
-            thirdRankCount ++
+//            Toast.makeText(mContext, "3등 당첨!", Toast.LENGTH_SHORT).show()
+
+            var isSecondRank = false
+            for (num in myNumArrayList){
+                if(num == bonusNum) {
+                    isSecondRank == true
+                    break
+                }
+            }
+            if(isSecondRank) {
+                luckyMoney += 65000000
+                secondRankCount ++
+            } else {
+                luckyMoney += 1500000
+                thirdRankCount ++
+            }
+
+
         } else if(correctCount == 4) {
             Toast.makeText(mContext, "4등 당첨!", Toast.LENGTH_SHORT).show()
             luckyMoney += 50000
@@ -121,13 +138,13 @@ class LottoActivity : BaseActivity() {
             luckyMoney += 0
             wrongRankCount ++
         }
-        luckyMoneyTxt.text = String.format("누적 당첨 금액 : %,d원", luckyMoney)
-        firstRankCountTxt.text = String.format("1등 당첨 : %,d원", firstRankCount)
-        secondRankCountTxt.text = String.format("2등 당첨 : %,d원", secondRankCount)
-        thirdRankCountTxt.text = String.format("3등 당첨 : %,d원", thirdRankCount)
-        fourthRankCountTxt.text = String.format("4등 당첨 : %,d원", fourthRankCount)
-        fifthRankCountTxt.text = String.format("5등 당첨 : %,d원", fifthRankCount)
-        wrongRankCountTxt.text = String.format("낙점 횟수 : %,d원", wrongRankCount)
+        luckyMoneyTxt.text = String.format("누적 당첨 금액 : %,d", luckyMoney)
+        firstRankCountTxt.text = String.format("1등 당첨 : %,d", firstRankCount)
+        secondRankCountTxt.text = String.format("2등 당첨 : %,d", secondRankCount)
+        thirdRankCountTxt.text = String.format("3등 당첨 : %,d", thirdRankCount)
+        fourthRankCountTxt.text = String.format("4등 당첨 : %,d", fourthRankCount)
+        fifthRankCountTxt.text = String.format("5등 당첨 : %,d", fifthRankCount)
+        wrongRankCountTxt.text = String.format("낙점 횟수 : %,d", wrongRankCount)
     }
 
     fun setThisWeekLottoNum() {
