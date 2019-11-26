@@ -1,8 +1,9 @@
 package com.tioeun.a201911_kotlinfinaltest.datas
 
 import org.json.JSONObject
+import java.io.Serializable
 
-class UserData {
+class UserData : Serializable {
 
     var loginId = ""
 
@@ -14,7 +15,7 @@ class UserData {
         fun getUserDataFromJson(json: JSONObject) : UserData {
             var user = UserData()
             user.loginId = json.getString("login_id")
-            user.name = json.getString("name ")
+            user.name = json.getString("name")
             user.phone = json.getString("phone")
             return user
         }
