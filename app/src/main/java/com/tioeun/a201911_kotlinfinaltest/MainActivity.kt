@@ -38,6 +38,12 @@ class MainActivity : BaseActivity() {
             val intent = Intent(mContext, LottoActivity::class.java)
             startActivity(intent)
         }
+
+        loginBtn.setOnClickListener {
+            val intent = Intent(mContext, LoginActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     override fun setValues() {
