@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.Toast
 import com.tioeun.a201911_kotlinfinaltest.datas.UserData
 import com.tioeun.a201911_kotlinfinaltest.utils.ContextUtil
+import com.tioeun.a201911_kotlinfinaltest.utils.GlobalData
 import com.tioeun.a201911_kotlinfinaltest.utils.ServerUtil
 import kotlinx.android.synthetic.main.activity_login.*
 import org.json.JSONObject
@@ -48,7 +49,11 @@ class LoginActivity : BaseActivity() {
                             ContextUtil.setUserId(mContext, userData.loginId)
                         }
 
+//                        로그인한 사용자가 누구인지는 모든 액티비티가 공유해야함
+                        GlobalData.loginUserData = userData
+
                         val intent = Intent(mContext, BoardActivity::class.java)
+                        intent.putExtra("user", userData)
                         startActivity(intent)
                         finish()
                     } else if(code == 400) {

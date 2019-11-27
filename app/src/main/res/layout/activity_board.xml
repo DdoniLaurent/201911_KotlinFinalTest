@@ -8,4 +8,31 @@
     android:padding="10dp"
     tools:context=".BoardActivity">
 
+    <TextView
+        android:text="제목"
+        android:textSize="30sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/myTabLayout"
+            app:tabIndicatorColor="#000000"
+            app:tabIndicatorHeight="3dp"
+            app:tabTextColor="#FF0000"
+            app:tabSelectedTextColor="#0000FF"
+            app:tabGravity="center"
+            app:tabMode="scrollable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/testViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </LinearLayout>
