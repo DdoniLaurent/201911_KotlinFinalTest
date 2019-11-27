@@ -7,8 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.tioeun.a201911_kotlinfinaltest.R
 
-class BoardListFragment : Fragment() {
-
+class BoardListFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -19,5 +18,17 @@ class BoardListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        setupEvents()
+        setValue()
     }
+
+    override fun setupEvents() {
+
+    }
+
+    override fun setValue() {
+
+    }
+
 }
