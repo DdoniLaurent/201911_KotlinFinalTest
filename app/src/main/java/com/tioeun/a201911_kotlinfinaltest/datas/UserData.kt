@@ -11,6 +11,8 @@ class UserData : Serializable {
 
     var phone = ""
 
+    var cetegory = Category()
+
     companion object {
         fun getUserDataFromJson(json: JSONObject) : UserData {
             var user = UserData()
