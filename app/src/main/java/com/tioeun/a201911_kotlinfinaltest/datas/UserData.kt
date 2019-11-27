@@ -11,7 +11,7 @@ class UserData : Serializable {
 
     var phone = ""
 
-    var cetegory = Category()
+    var category = Category()
 
     companion object {
         fun getUserDataFromJson(json: JSONObject) : UserData {
@@ -19,6 +19,8 @@ class UserData : Serializable {
             user.loginId = json.getString("login_id")
             user.name = json.getString("name")
             user.phone = json.getString("phone")
+
+            user.category = Category.getCategoryFromJson(json.getJSONObject("category"))
             return user
         }
     }
