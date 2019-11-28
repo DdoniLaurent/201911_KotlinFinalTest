@@ -2,6 +2,7 @@ package com.tioeun.a201911_kotlinfinaltest.utils
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
@@ -188,6 +189,46 @@ class ServerUtil {
 
             })
         }
+//        ===================================
+        fun postRequestBlackList(context: Context, title: String , content: String , handler: JsonResponseHandler){
+
+            var client = OkHttpClient()
+
+            var url = "${BASE_URL}/black_list"
+
+            var formBody = FormBody.Builder()
+                .add("title", title)
+                .add("content", content)
+                .build()
+
+
+            var request = Request.Builder()
+                .url(url)
+                .header("X-Http-Token", ContextUtil.getUserToken(context))
+                .post(formBody)
+                .build()
+
+
+            client.newCall(request).enqueue(object : Callback{
+                override fun onFailure(call: Call, e: IOException) {
+                    Toast.makeText(context,"연결 실패",Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+
+
+                    var body = response.body()!!.string()
+                    Log.d("data",body)
+
+                    var json  = JSONObject(body)
+                    handler?.onResponse(json)
+                }
+            })
+        }
+
+
+
+
 
     }
 }
