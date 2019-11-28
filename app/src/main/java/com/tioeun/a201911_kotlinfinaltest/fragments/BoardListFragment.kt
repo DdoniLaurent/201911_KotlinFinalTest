@@ -36,6 +36,11 @@ class BoardListFragment : BaseFragment() {
         setValue()
     }
 
+    override fun onResume() {
+        super.onResume()
+        getBlackListFromServer()
+    }
+
     override fun setupEvents() {
         writeBlackListBtn.setOnClickListener {
             val intent = Intent(mContext!!, EditBlackListActivity::class.java)
@@ -48,7 +53,6 @@ class BoardListFragment : BaseFragment() {
         blackListAdapter = BoardAdapter(mContext!!, blackList)
         boardListView.adapter = blackListAdapter
 
-        getBlackListFromServer()
     }
 
     fun getBlackListFromServer() {
