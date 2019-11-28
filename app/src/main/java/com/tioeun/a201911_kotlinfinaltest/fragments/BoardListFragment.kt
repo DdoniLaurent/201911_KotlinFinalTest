@@ -6,8 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import com.tioeun.a20191119_01_banklistpractice.adapters.BoardAdapter
 import com.tioeun.a201911_kotlinfinaltest.EditBlackListActivity
 import com.tioeun.a201911_kotlinfinaltest.R
@@ -24,7 +22,8 @@ class BoardListFragment : BaseFragment() {
     var dateFilterStartDate:Calendar? = null
 
     var blackList = ArrayList<BlackList>()
-    var blackListAdapter:BoardAdapter? =null
+    var filteredBlackList = ArrayList<BlackList>()
+    var blackListAdapter:BoardAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,73 +35,105 @@ class BoardListFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         mContext = activity
-
         setupEvents()
         setValue()
     }
 
     override fun onResume() {
         super.onResume()
+
         getBlackListFromServer()
     }
 
     override fun setupEvents() {
 
-//        날짜 필터 선택을 누르면 => 며칠부터 필터를 하고싶은지 DatePicker로 선택
-//        선택 결과를 텍스트뷰에 반영
+//        날짜 필터 선택을 누르면 => 며칠부터 필터를 하고싶은지 DatePicker로 선택.
+//        선택 결과를 텍스트뷰에 반영.
 //        dateFilterStateDate가 null이면 초기화. 년/월/일 세팅
 //        날짜는 2019.09.08 ~ 양식으로 반영
+
         dateFilterBtn.setOnClickListener {
-            var datePickerDialog = DatePickerDialog(mContext!!,DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
-                Toast.makeText(mContext, "${year}년 ${month+1}월 ${dayOfMonth}일",Toast.LENGTH_LONG).show()
 
+            var datePickerDialog = DatePickerDialog(mContext!!, DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
 
-                var selectDate = Calendar.getInstance()
-                selectDate.set(year,month,dayOfMonth)
+                if (dateFilterStartDate == null) {
+                    dateFilterStartDate = Calendar.getInstance()
+                }
 
-                var sdf = SimpleDateFormat("yyyy년M월d일")
-                var resultStr = sdf.format(selectDate.time)
+                dateFilterStartDate?.set(year, month, dayOfMonth, 0, 0, 0)
 
+                val sdf = SimpleDateFormat("yyyy.MM.dd ~")
+                dateFilterTxt.text = sdf.format(dateFilterStartDate?.time)
 
-                dateFilterTxt.text = resultStr
-            },2019,Calendar.NOVEMBER,8)
+                filterBlackLists()
 
-
+            }, 2019, Calendar.NOVEMBER, 1)
             datePickerDialog.show()
+
         }
 
         writeBlackListBtn.setOnClickListener {
+
             val intent = Intent(mContext!!, EditBlackListActivity::class.java)
             startActivity(intent)
+
         }
     }
 
     override fun setValue() {
 
-        blackListAdapter = BoardAdapter(mContext!!, blackList)
+        blackListAdapter = BoardAdapter(mContext!!, filteredBlackList)
         boardListView.adapter = blackListAdapter
 
     }
 
+    fun filterBlackLists() {
+
+        filteredBlackList.clear()
+
+        for (bl in blackList) {
+            if (dateFilterStartDate == null) {
+//                날짜 필터가 설정되지 않았다면
+//                무조건 화면에 보여지라고 필터된 목록에 추가.
+                filteredBlackList.add(bl)
+            }
+            else {
+//                날짜 필터가 설정되어 있다면
+//                게시글의 작성일자 >= 날짜필터 면 보이도록 목록에 추가.
+                if (bl.createdAt.timeInMillis >= dateFilterStartDate!!.timeInMillis) {
+                    filteredBlackList.add(bl)
+                }
+
+            }
+        }
+
+        blackListAdapter?.notifyDataSetChanged()
+    }
+
     fun getBlackListFromServer() {
-        ServerUtil.getRequestBlackList(mContext!!, object : ServerUtil.JsonResponseHandler{
+        ServerUtil.getRequestBlackList(mContext!!, object : ServerUtil.JsonResponseHandler {
             override fun onResponse(json: JSONObject) {
+
                 val code = json.getInt("code")
-                if(code == 200) {
+
+                if (code == 200) {
                     val data = json.getJSONObject("data")
-                    val blackLists = data.getJSONArray("black_lists")
+                    val black_lists = data.getJSONArray("black_lists")
 
                     blackList.clear()
-                    for(i in 0..blackLists.length()-1){
-                        blackList.add(BlackList.getBlackListDataFromJson(blackLists.getJSONObject(i)))
+
+                    for (i in 0..black_lists.length()-1) {
+                        blackList.add(BlackList.getBlackListDataFromJson(black_lists.getJSONObject(i)))
                     }
 
                     activity!!.runOnUiThread {
                         blackListAdapter?.notifyDataSetChanged()
+                        filterBlackLists()
                     }
+
                 }
+
             }
 
         })
