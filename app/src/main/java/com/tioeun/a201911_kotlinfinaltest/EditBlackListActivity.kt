@@ -33,8 +33,16 @@ class EditBlackListActivity : BaseActivity() {
             ServerUtil.postRequestBlackList(mContext, titleEdt.text.toString(), contentEdt.text.toString(), object : ServerUtil.JsonResponseHandler{
                 override fun onResponse(json: JSONObject) {
                     Log.d("글쓰기서버응답", json.toString())
+                    val code = json.getInt("code")
+                    runOnUiThread {
+                        if(code == 200) {
+                            Toast.makeText(mContext,"게시글 등록에 성공하였습니다.", Toast.LENGTH_SHORT).show()
+                            finish()
+                        } else {
+                            Toast.makeText(mContext, "게시글 등록에 실패했습니다. 계속 실패하면 관리자에게 문의하세요.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 }
-
             })
 
         }
