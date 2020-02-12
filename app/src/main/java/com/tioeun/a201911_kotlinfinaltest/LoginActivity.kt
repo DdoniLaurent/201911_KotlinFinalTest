@@ -32,6 +32,7 @@ class LoginActivity : BaseActivity() {
             val userId = idEdt.text.toString()
             val userPw = pwEdt.text.toString()
 
+            //서버 연동 로그인 api
             ServerUtil.postRequestLogin(mContext, userId, userPw, object : ServerUtil.JsonResponseHandler {
                 override fun onResponse(json: JSONObject) {
                     Log.d("서버응답", json.toString())
@@ -74,6 +75,7 @@ class LoginActivity : BaseActivity() {
 
         }
 
+        //아이디 저장여부 체크박스 데이터 저장
         saveIdCheckBox.setOnCheckedChangeListener { buttonView, isChecked ->
 
 
@@ -84,8 +86,10 @@ class LoginActivity : BaseActivity() {
 
     override fun setValues() {
 
+        //아이디 저장여부 체크박스 데이터 가져오기
         saveIdCheckBox.isChecked = ContextUtil.getSaveIdChecked(mContext)
 
+        //저장된 아이디 가져오기
         idEdt.setText(ContextUtil.getUserId(mContext))
 
     }

@@ -14,8 +14,10 @@ class ServerUtil {
     }
 
     companion object {
+        //api 통신할 url
         var BASE_URL = "http://192.168.0.26:5000"
 
+        //로그인
         fun postRequestLogin(
             context: Context,
             userId:String,

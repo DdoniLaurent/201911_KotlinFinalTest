@@ -2,12 +2,19 @@ package com.tioeun.a201911_kotlinfinaltest.utils
 
 import android.content.Context
 
+
+/**
+ *
+ * SharedPreferences = 세션(간단한 메모장)
+ *
+ */
+
 class ContextUtil {
     companion object {
 
         val prefName = "KotlinFinalTestPreference"
 
-        //        아이디 저장 여부 기록 항목
+        // 아이디 저장 여부 기록 항목
         val SAVE_ID_CHECKED = "SAVE_ID_CHECKED"
 
         val USER_ID = "USER_ID"

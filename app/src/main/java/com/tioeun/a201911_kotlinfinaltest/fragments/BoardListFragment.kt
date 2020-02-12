@@ -73,6 +73,7 @@ class BoardListFragment : BaseFragment() {
 
         }
 
+        //작성 버튼 클릭 시 글쓰기로 이동
         writeBlackListBtn.setOnClickListener {
 
             val intent = Intent(mContext!!, EditBlackListActivity::class.java)
@@ -83,6 +84,7 @@ class BoardListFragment : BaseFragment() {
 
     override fun setValue() {
 
+        //게시글 어댑터
         blackListAdapter = BoardAdapter(mContext!!, filteredBlackList)
         boardListView.adapter = blackListAdapter
 
@@ -108,9 +110,11 @@ class BoardListFragment : BaseFragment() {
             }
         }
 
+        //게시글 새로고침
         blackListAdapter?.notifyDataSetChanged()
     }
 
+    //게시글 가져오기
     fun getBlackListFromServer() {
         ServerUtil.getRequestBlackList(mContext!!, object : ServerUtil.JsonResponseHandler {
             override fun onResponse(json: JSONObject) {

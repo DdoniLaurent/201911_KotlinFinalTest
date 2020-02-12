@@ -42,6 +42,7 @@ class LottoActivity : BaseActivity() {
 
     override fun setupEvents() {
 
+        //로또 하나 구매하기
         buyOneLottoBtn.setOnClickListener {
             setThisWeekLottoNum()
             checkLottoRank()
@@ -50,6 +51,7 @@ class LottoActivity : BaseActivity() {
             usedMoneyTxt.text = String.format("사용금액 : %,d원", usedMoney)
         }
 
+        //로또 자동으로 구매하기
         autoLottoBtn.setOnClickListener {
             if(!isNowBuying) {
                 doLottoLoop()
@@ -67,8 +69,10 @@ class LottoActivity : BaseActivity() {
     }
 
 
+    //자동구매 스레드? 설정
     var lottoRunnable = object : Runnable {
         override fun run() {
+            //구매 금액이 1천억이 안되면서 계속 구매
             if(usedMoney < 1000000000){
                 setThisWeekLottoNum()
                 checkLottoRank()
@@ -84,14 +88,17 @@ class LottoActivity : BaseActivity() {
         }
     }
 
+    //자동구매 스레드?
     fun doLottoLoop() {
         mHandller.post(lottoRunnable)
     }
 
+    //자동구매 스레드? 종료
     fun stopLottoLoop(){
         mHandller.removeCallbacks(lottoRunnable)
     }
 
+    //당첨확인
     fun checkLottoRank() {
 
         var correctCount = 0

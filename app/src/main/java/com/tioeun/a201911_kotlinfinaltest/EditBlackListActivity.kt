@@ -30,6 +30,7 @@ class EditBlackListActivity : BaseActivity() {
                 return@setOnClickListener
             }
 
+            //서버에 글쓴 데이터 전달
             ServerUtil.postRequestBlackList(mContext, titleEdt.text.toString(), contentEdt.text.toString(), object : ServerUtil.JsonResponseHandler{
                 override fun onResponse(json: JSONObject) {
                     Log.d("글쓰기서버응답", json.toString())
